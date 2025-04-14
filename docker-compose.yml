@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: shortl-postgres-container
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: shortl_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - shortl_net
+
+volumes:
+  postgres_data:
+
+networks:
+  shortl_net:
+    driver: bridge
