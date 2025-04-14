@@ -15,7 +15,8 @@ func main() {
 		c.JSON(200, gin.H{"message": "ok"})
 	})
 
-	handler.RegisterHealthRoutes(r)
+	r.GET("/health", handler.HealthHandler)
+	r.POST("/signup", handler.SignupHandler)
 
 	err := r.Run(":8080")
 	if err != nil {
