@@ -45,7 +45,7 @@ func Signup(email, username, password string) *errors.CustomError {
 func Login(email, password string) (string, *errors.CustomError) {
 	var user models.User
 
-	if err := db.DB.Where("email = ?", email).First(&user).Error; err == nil {
+	if err := db.DB.Where("email = ?", email).First(&user).Error; err != nil {
 		return "", errors.NotFoundError("user with given email can not be found")
 	}
 
