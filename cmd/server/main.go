@@ -21,6 +21,7 @@ func main() {
 	})
 	r.GET("/health", handler.HealthHandler)
 	r.POST("/signup", handler.SignupHandler)
+	r.POST("/login", handler.LoginHandler)
 
 	err := r.Run(":8080")
 	if err != nil {

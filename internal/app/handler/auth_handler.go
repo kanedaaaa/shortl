@@ -31,3 +31,27 @@ func SignupHandler(c *gin.Context) {
 		"message": "ok",
 	})
 }
+
+func LoginHandler(c *gin.Context) {
+	var userRequest struct {
+		Email    string `json:"email" binding:"required,email"`
+		Password string `json:"password" binding:"required,min=8"`
+	}
+
+	if err := c.ShouldBindJSON(&userRequest); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid input data",
+		})
+	}
+
+	jwt, err := service.Login(userRequest.Email, userRequest.Password)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "ok",
+		"data":    jwt,
+	})
+}
