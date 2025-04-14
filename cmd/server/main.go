@@ -20,8 +20,21 @@ func main() {
 		c.JSON(200, gin.H{"message": "ok"})
 	})
 	r.GET("/health", handler.HealthHandler)
-	r.POST("/signup", handler.SignupHandler)
-	r.POST("/login", handler.LoginHandler)
+
+	v1 := r.Group("/v1")
+	{
+		auth := v1.Group("/auth")
+		{
+			auth.POST("/signup", handler.SignupHandler)
+			auth.POST("/login", handler.LoginHandler)
+		}
+
+		link := v1.Group("/link")
+		link.Use(middleware.AuthMiddleware())
+		{
+			link.POST("/shorten", handler.ShortenURLHandler)
+		}
+	}
 
 	err := r.Run(":8080")
 	if err != nil {
