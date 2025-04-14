@@ -10,11 +10,11 @@ import (
 func Signup(email, username, password string) *errors.CustomError {
 	var existingUser models.User
 
-	if err := db.DB.Where("email = ?").First(&existingUser).Error; err == nil {
+	if err := db.DB.Where("email = ?", email).First(&existingUser).Error; err == nil {
 		return errors.ConflictError("email is already taken")
 	}
 
-	if err := db.DB.Where("username = ?").First(&existingUser).Error; err == nil {
+	if err := db.DB.Where("username = ?", username).First(&existingUser).Error; err == nil {
 		return errors.ConflictError("username is already taken")
 	}
 
