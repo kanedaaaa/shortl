@@ -1,7 +1,10 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/kanedaaaa/shortl/internal/app/handler"
 	"github.com/kanedaaaa/shortl/internal/app/middleware"
 	"github.com/kanedaaaa/shortl/internal/db"
@@ -11,6 +14,12 @@ import (
 func main() {
 	logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
 	logrus.Info("Starting...")
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	db.Connect()
 
 	r := gin.Default()
@@ -36,8 +45,9 @@ func main() {
 		}
 	}
 
-	err := r.Run(":8080")
-	if err != nil {
-		logrus.Fatal("failed to start: ", err)
+	runErr := r.Run(":8080")
+
+	if runErr != nil {
+		logrus.Fatal("failed to start: ", runErr)
 	}
 }

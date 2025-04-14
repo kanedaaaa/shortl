@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	"github.com/kanedaaaa/shortl/internal/db/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -14,11 +13,6 @@ import (
 var DB *gorm.DB
 
 func Connect() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
 	dsn := os.Getenv("DB_DSN")
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

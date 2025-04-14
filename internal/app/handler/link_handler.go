@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,8 @@ func ShortenURLHandler(c *gin.Context) {
 
 	userID := userIDValue.(uint)
 
+	fmt.Println(userID)
+
 	var userRequest struct {
 		URL string `json:"url" binding:"required"`
 	}
@@ -25,9 +28,10 @@ func ShortenURLHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid input data",
 		})
+		return
 	}
 
-	shortenedURL, err := service.ShortenURL(userID, userRequest.URL)
+	shortened, err := service.ShortenURL(userID, userRequest.URL)
 	if err != nil {
 		c.Error(err)
 		return
@@ -35,6 +39,6 @@ func ShortenURLHandler(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "ok",
-		"data":    shortenedURL,
+		"data":    shortened,
 	})
 }

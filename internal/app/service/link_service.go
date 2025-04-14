@@ -43,6 +43,7 @@ func encodeBase62(num uint) string {
 	for num > 0 {
 		remainder := num % 62
 		result = append([]byte{base62Chars[remainder]}, result...)
+		num = num / 62
 	}
 
 	return string(result)
