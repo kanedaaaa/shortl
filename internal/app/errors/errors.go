@@ -36,6 +36,10 @@ func BadRequestError(message string) *CustomError {
 	return NewCustomError(400, message, "Bad request")
 }
 
+func NotFoundError(message string) *CustomError {
+	return NewCustomError(404, message, "Not found")
+}
+
 func InternalServerError(err error) *CustomError {
 	log.Printf("Internal Server Error: %v", err)
 

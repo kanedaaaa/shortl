@@ -12,6 +12,7 @@ func main() {
 	logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
 	logrus.Info("Starting...")
 	db.Connect()
+
 	r := gin.Default()
 	r.Use(middleware.ErrorHandler())
 
