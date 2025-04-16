@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,8 +16,6 @@ func ShortenURLHandler(c *gin.Context) {
 	}
 
 	userID := userIDValue.(uint)
-
-	fmt.Println(userID)
 
 	var userRequest struct {
 		URL string `json:"url" binding:"required"`
@@ -41,4 +38,28 @@ func ShortenURLHandler(c *gin.Context) {
 		"message": "ok",
 		"data":    shortened,
 	})
+}
+
+func GetURLHandler(c *gin.Context) {
+	userIDValue, exists := c.Get("userID")
+
+	if !exists {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
+	userID := userIDValue.(uint)
+
+	urls, err := service.GetURL(userID)
+
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "ok",
+		"data":    urls,
+	})
+
 }

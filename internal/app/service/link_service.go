@@ -12,7 +12,7 @@ func ShortenURL(userID uint, link string) (string, *errors.CustomError) {
 	var user models.User
 
 	if err := db.DB.Where("ID = ?", userID).First(&user).Error; err != nil {
-		return "", errors.ConflictError("couldnt find user with given id")
+		return "", errors.NotFoundError("couldnt find user with given id")
 	}
 
 	newLink := models.Link{
@@ -31,6 +31,16 @@ func ShortenURL(userID uint, link string) (string, *errors.CustomError) {
 	}
 
 	return shortened, nil
+}
+
+func GetURL(userID uint) ([]models.Link, *errors.CustomError) {
+	var urls []models.Link
+
+	if err := db.DB.Where("user_id = ?", userID).Find(&urls).Error; err != nil {
+		return urls, errors.NotFoundError("couldnt find any URLs")
+	}
+
+	return urls, nil
 }
 
 func encodeBase62(num uint) string {

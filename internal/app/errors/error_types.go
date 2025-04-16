@@ -2,7 +2,6 @@ package errors
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -41,8 +40,6 @@ func NotFoundError(message string) *CustomError {
 }
 
 func InternalServerError(err error) *CustomError {
-	log.Printf("Internal Server Error: %v", err)
-
 	return &CustomError{
 		Code:    http.StatusInternalServerError,
 		Message: "Internal Server Error",

@@ -43,6 +43,7 @@ func main() {
 		link.Use(middleware.AuthMiddleware())
 		{
 			link.POST("/shorten", handler.ShortenURLHandler)
+			link.GET("/", handler.GetURLHandler)
 		}
 	}
 

@@ -30,7 +30,7 @@ func ErrorHandler() gin.HandlerFunc {
 			return
 		}
 
-		log.Printf("Unhandled error: %v", err)
+		log.Fatalf("Unhandled error: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Internal Server Error",
 		})
