@@ -21,8 +21,9 @@ func main() {
 	}
 
 	db.Connect()
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.New()
 
-	r := gin.Default()
 	r.Use(middleware.ErrorHandler())
 
 	r.GET("/", func(c *gin.Context) {
@@ -45,9 +46,11 @@ func main() {
 		}
 	}
 
+	logrus.Info("Server started on :8080")
 	runErr := r.Run(":8080")
 
 	if runErr != nil {
 		logrus.Fatal("failed to start: ", runErr)
 	}
+
 }

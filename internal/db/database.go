@@ -1,11 +1,11 @@
 package db
 
 import (
-	"fmt"
 	"log"
 	"os"
 
 	"github.com/kanedaaaa/shortl/internal/db/models"
+	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -22,13 +22,13 @@ func Connect() {
 
 	DB = db
 
-	fmt.Println("Database connection established")
+	logrus.Info("Database connection established")
 
 	err = db.AutoMigrate(&models.User{}, &models.Link{})
 	if err != nil {
 		log.Fatal("Failed to migrate models: ", err)
 	}
 
-	fmt.Println("Database migrated successfully")
+	logrus.Info("Database migrated successfully")
 
 }
