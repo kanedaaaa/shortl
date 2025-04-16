@@ -9,10 +9,10 @@ import (
 const base62Chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 func ShortenURL(userID uint, link string) (string, *errors.CustomError) {
-	var user models.User
+	_, err := db.GetUserOrPanic(userID)
 
-	if err := db.DB.Where("ID = ?", userID).First(&user).Error; err != nil {
-		return "", errors.NotFoundError("couldnt find user with given id")
+	if err != nil {
+		return "", err
 	}
 
 	newLink := models.Link{
